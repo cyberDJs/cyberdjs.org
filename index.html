@@ -212,7 +212,7 @@
     h1 {
       max-width: 10ch;
       margin-bottom: var(--space-4);
-      font-size: clamp(3rem, 18vw, 12rem);
+      font-size: clamp(3rem, 10vw, 7.5rem);
       line-height: .8;
       text-transform: uppercase;
     }
@@ -307,16 +307,20 @@
       animation-delay: calc(var(--delay) * -1s);
     }
 
-    .signal-note {
-      position: absolute;
-      right: var(--space-4);
-      bottom: var(--space-4);
-      left: var(--space-4);
-      color: var(--muted);
-      font-family: var(--mono);
-      font-size: .78rem;
-    }
-
+.signal-note {
+  position: absolute;
+  right: var(--space-4);
+  bottom: var(--space-4);
+  left: var(--space-4);
+  max-width: 28rem;
+  padding: .55rem .7rem;
+  border: 1px solid rgba(242, 240, 232, .16);
+  border-radius: 6px;
+  background: rgba(5, 5, 6, .74);
+  color: var(--text);
+  font-family: var(--mono);
+  font-size: .78rem;
+}
     .section-head {
       display: grid;
       gap: var(--space-3);
