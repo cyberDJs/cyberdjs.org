@@ -449,11 +449,60 @@
       padding: var(--space-5, 1.25rem) 0;
     }
 
+    .events-list {
+      display: grid;
+      gap: var(--space-4);
+    }
+
+    .events-list + .events-list {
+      margin-top: var(--space-8);
+    }
+
+    .events-archive-title {
+      margin-top: var(--space-8);
+      color: var(--metal);
+      font-family: var(--mono);
+      font-size: .78rem;
+      text-transform: uppercase;
+    }
+
     .event-date {
       color: var(--cyan);
       font-family: var(--mono);
       font-size: .82rem;
       text-transform: uppercase;
+    }
+
+    .event-meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: .45rem .75rem;
+      color: var(--metal);
+      font-family: var(--mono);
+      font-size: .78rem;
+      text-transform: uppercase;
+    }
+
+    .event-actions {
+      font-family: var(--mono);
+      font-size: .78rem;
+      text-transform: uppercase;
+    }
+
+    .event-empty {
+      border: 1px dashed rgba(55, 240, 255, .42);
+      border-radius: var(--radius);
+      padding: var(--space-4);
+      background: rgba(5, 5, 6, .48);
+    }
+
+    .event-empty p {
+      margin-bottom: 0;
+      color: var(--muted);
+    }
+
+    [hidden] {
+      display: none !important;
     }
 
     .manifesto {
@@ -540,7 +589,17 @@
       font-size: clamp(2.35rem, 7vw, 5rem);
     }
 
+    #events-title {
+      max-width: 10ch;
+      font-size: clamp(2.35rem, 6.5vw, 4.7rem);
+    }
+
     @media (min-width: 720px) {
+      #events .section-head {
+        grid-template-columns: minmax(0, .78fr) minmax(22rem, 1fr);
+        align-items: center;
+      }
+
       #sound .section-head {
         grid-template-columns: minmax(0, .72fr) minmax(22rem, 1fr);
         align-items: center;
@@ -707,24 +766,41 @@
           </div>
           <p>Confirmed dates should appear first. Until event data is verified, booking stays the primary live action.</p>
         </div>
-        <div aria-label="Upcoming event formats">
-          <article class="event-row">
-            <div class="event-date">Upcoming / TBA</div>
-            <div>
-              <h3>Club night format</h3>
-              <p>CyberDJs crew set for dark rooms, precise systems and serious low end.</p>
-            </div>
-            <span class="status">Bookable</span>
-          </article>
-          <article class="event-row">
-            <div class="event-date">Collab / TBA</div>
-            <div>
-              <h3>Lab session or workshop</h3>
-              <p>Music-tech demo, DJ workflow experiment, visual system or CyberCore-connected session.</p>
-            </div>
-            <span class="status">Dates to be announced</span>
-          </article>
+        <div class="events-list" id="events-upcoming" aria-label="Upcoming CyberDJs events"></div>
+        <div class="event-empty" id="events-empty" role="status" hidden>
+          <span class="status">No confirmed dates</span>
+          <p>No public upcoming CyberDJs events are confirmed yet. Booking remains open for clubs, festivals, streams, workshops and collaborations.</p>
         </div>
+        <h3 class="events-archive-title" id="events-archive-title" hidden>Past / archived formats</h3>
+        <div class="events-list" id="events-archive" aria-labelledby="events-archive-title"></div>
+        <noscript>
+          <div class="event-empty" role="status">
+            <span class="status">No confirmed dates</span>
+            <p>No public upcoming CyberDJs events are confirmed yet. Booking remains open for clubs, festivals, streams, workshops and collaborations.</p>
+          </div>
+          <div class="events-list" aria-label="Past and archived CyberDJs event format fallback">
+            <article class="event-row">
+              <time class="event-date">TBA archive</time>
+              <div>
+                <h3>Club night format</h3>
+                <div class="event-meta"><span>City TBA</span><span>Venue TBA</span><span>Club night</span></div>
+                <p>Public-safe placeholder for a future verified CyberDJs club appearance.</p>
+                <div class="tags"><span class="tag">club</span><span class="tag">booking</span></div>
+              </div>
+              <span class="status">Archive placeholder</span>
+            </article>
+            <article class="event-row">
+              <time class="event-date">TBA archive</time>
+              <div>
+                <h3>Lab session format</h3>
+                <div class="event-meta"><span>City TBA</span><span>Venue TBA</span><span>Workshop / lab</span></div>
+                <p>Public-safe placeholder for a future verified music-tech demo, workshop or collaboration.</p>
+                <div class="tags"><span class="tag">lab</span><span class="tag">workshop</span></div>
+              </div>
+              <span class="status">Archive placeholder</span>
+            </article>
+          </div>
+        </noscript>
       </div>
     </section>
 
@@ -871,10 +947,48 @@
       }
     ];
 
+    // Provisional public-safe placeholders. Owner verification required before publishing real dates, venues or links.
+    const events = [
+      {
+        id: "club-night-format",
+        title: "Club night format",
+        status: "archive-placeholder",
+        dateLabel: "TBA archive",
+        dateISO: "",
+        city: "City TBA",
+        venue: "Venue TBA",
+        format: "Club night",
+        description: "Public-safe placeholder for a future verified CyberDJs club appearance.",
+        link: null,
+        tags: ["club", "booking"],
+        category: "past"
+      },
+      {
+        id: "lab-session-format",
+        title: "Lab session format",
+        status: "archive-placeholder",
+        dateLabel: "TBA archive",
+        dateISO: "",
+        city: "City TBA",
+        venue: "Venue TBA",
+        format: "Workshop / lab",
+        description: "Public-safe placeholder for a future verified music-tech demo, workshop or collaboration.",
+        link: null,
+        tags: ["lab", "workshop"],
+        category: "past"
+      }
+    ];
+
     const artistRoster = document.querySelector("#artist-roster");
     const musicRoster = document.querySelector("#music-roster");
+    const upcomingEvents = document.querySelector("#events-upcoming");
+    const archivedEvents = document.querySelector("#events-archive");
+    const eventsEmpty = document.querySelector("#events-empty");
+    const eventsArchiveTitle = document.querySelector("#events-archive-title");
     const artistFragment = document.createDocumentFragment();
     const musicFragment = document.createDocumentFragment();
+    const upcomingEventsFragment = document.createDocumentFragment();
+    const archivedEventsFragment = document.createDocumentFragment();
 
     const text = (value) => document.createTextNode(value);
 
@@ -914,6 +1028,20 @@
       });
 
       parent.append(links);
+    };
+
+    const appendEventLink = (parent, event) => {
+      if (!event.link || !event.link.url) return;
+
+      const actions = document.createElement("div");
+      actions.className = "event-actions";
+
+      const link = document.createElement("a");
+      link.href = event.link.url;
+      link.rel = "noopener";
+      link.append(text(event.link.label || "Event link"));
+      actions.append(link);
+      parent.append(actions);
     };
 
     const appendLinks = (parent, artist) => {
@@ -1001,8 +1129,50 @@
       musicFragment.append(card);
     });
 
+    events.forEach((event) => {
+      const card = document.createElement("article");
+      card.className = "event-row";
+      card.id = `event-${event.id}`;
+      card.dataset.eventId = event.id;
+      card.dataset.eventCategory = event.category;
+
+      const date = document.createElement("time");
+      date.className = "event-date";
+      if (event.dateISO) date.dateTime = event.dateISO;
+      date.append(text(event.dateLabel));
+      card.append(date);
+
+      const content = document.createElement("div");
+      appendTextElement(content, "h3", "", event.title);
+
+      const meta = document.createElement("div");
+      meta.className = "event-meta";
+      [event.city, event.venue, event.format].forEach((value) => {
+        appendTextElement(meta, "span", "", value);
+      });
+      if (meta.children.length) content.append(meta);
+
+      appendTextElement(content, "p", "", event.description);
+      appendTagList(content, event.tags || []);
+      appendEventLink(content, event);
+
+      card.append(content);
+      appendTextElement(card, "span", "status", event.status.replaceAll("-", " "));
+
+      if (event.category === "upcoming") {
+        upcomingEventsFragment.append(card);
+      } else {
+        archivedEventsFragment.append(card);
+      }
+    });
+
     artistRoster.append(artistFragment);
     musicRoster.append(musicFragment);
+    upcomingEvents.append(upcomingEventsFragment);
+    archivedEvents.append(archivedEventsFragment);
+
+    eventsEmpty.hidden = upcomingEvents.children.length > 0;
+    eventsArchiveTitle.hidden = archivedEvents.children.length === 0;
   </script>
 </body>
 </html>
