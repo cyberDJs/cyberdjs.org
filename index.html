@@ -2,13 +2,720 @@
 <html lang="en">
 <head>
   <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width,initial-scale=1">
-  <title>CyberDJs</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>CyberDJs | Underground Artist Crew and Future Dancefloor Lab</title>
+  <meta name="description" content="CyberDJs is an underground artist crew for future dancefloors: DJs, producers, booking-ready sets, and CyberCore-connected music technology experiments.">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://cyberdjs.org/">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://cyberdjs.org/">
+  <meta property="og:title" content="CyberDJs">
+  <meta property="og:description" content="Underground artist crew operating like a pirate radio station from inside a future music lab.">
+  <meta property="og:site_name" content="CyberDJs">
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="CyberDJs">
+  <meta name="twitter:description" content="Artist crew, booking destination, and experimental music lab.">
+  <meta name="theme-color" content="#050506">
+  <style>
+    :root {
+      color-scheme: dark;
+      --void: #050506;
+      --ink: #0b0b0f;
+      --panel: #101014;
+      --panel-raised: #17171d;
+      --line: #2a2a33;
+      --text: #f2f0e8;
+      --muted: #a6a398;
+      --acid: #d7ff2f;
+      --cyan: #37f0ff;
+      --magenta: #ff3d9a;
+      --redline: #ff4b3e;
+      --metal: #b8ad94;
+      --focus: #ffffff;
+      --space-2: .5rem;
+      --space-3: .75rem;
+      --space-4: 1rem;
+      --space-6: 1.5rem;
+      --space-8: 2rem;
+      --space-12: 3rem;
+      --space-16: 4rem;
+      --space-24: 6rem;
+      --radius: 8px;
+      --max: 1180px;
+      --mono: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace;
+      --sans: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      margin: 0;
+      background:
+        linear-gradient(90deg, rgba(55, 240, 255, .06) 1px, transparent 1px),
+        linear-gradient(180deg, rgba(215, 255, 47, .035) 1px, transparent 1px),
+        radial-gradient(circle at 15% 0%, rgba(255, 61, 154, .14), transparent 28rem),
+        radial-gradient(circle at 80% 12%, rgba(55, 240, 255, .12), transparent 24rem),
+        var(--void);
+      background-size: 72px 72px, 72px 72px, auto, auto, auto;
+      color: var(--text);
+      font-family: var(--sans);
+      line-height: 1.6;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      background: repeating-linear-gradient(180deg, rgba(255,255,255,.035), rgba(255,255,255,.035) 1px, transparent 1px, transparent 6px);
+      mix-blend-mode: soft-light;
+      opacity: .35;
+      z-index: 20;
+    }
+
+    a {
+      color: inherit;
+      text-decoration-color: rgba(55, 240, 255, .7);
+      text-underline-offset: .22em;
+    }
+
+    a:hover {
+      color: var(--acid);
+    }
+
+    a:focus-visible,
+    button:focus-visible {
+      outline: 3px solid var(--focus);
+      outline-offset: 4px;
+    }
+
+    .site-header {
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      border-bottom: 1px solid rgba(242, 240, 232, .12);
+      background: rgba(5, 5, 6, .86);
+      backdrop-filter: blur(14px);
+    }
+
+    .nav {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: var(--space-4);
+      max-width: var(--max);
+      margin: 0 auto;
+      padding: .8rem var(--space-4);
+    }
+
+    .brand {
+      display: inline-flex;
+      align-items: center;
+      gap: .65rem;
+      font-weight: 900;
+      letter-spacing: 0;
+      text-transform: uppercase;
+      text-decoration: none;
+    }
+
+    .brand-mark {
+      width: 2rem;
+      height: 2rem;
+      border: 1px solid var(--acid);
+      background: repeating-linear-gradient(90deg, var(--acid) 0 3px, transparent 3px 7px);
+      box-shadow: 0 0 22px rgba(215, 255, 47, .28);
+    }
+
+    .nav-links {
+      display: none;
+      align-items: center;
+      gap: var(--space-4);
+      font-family: var(--mono);
+      font-size: .78rem;
+      text-transform: uppercase;
+    }
+
+    .button {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 2.75rem;
+      padding: .75rem 1rem;
+      border: 1px solid var(--acid);
+      border-radius: var(--radius);
+      background: var(--acid);
+      color: #111;
+      font-weight: 900;
+      text-decoration: none;
+      text-transform: uppercase;
+      transition: transform .18s ease, box-shadow .18s ease;
+    }
+
+    .button:hover {
+      color: #111;
+      transform: translateY(-2px);
+      box-shadow: 0 0 28px rgba(215, 255, 47, .35);
+    }
+
+    .button.secondary {
+      background: transparent;
+      color: var(--text);
+      border-color: rgba(55, 240, 255, .62);
+    }
+
+    .button.secondary:hover {
+      color: var(--acid);
+      box-shadow: 0 0 24px rgba(55, 240, 255, .22);
+    }
+
+    main {
+      overflow: hidden;
+    }
+
+    .section {
+      border-top: 1px solid rgba(242, 240, 232, .11);
+      padding: var(--space-16) var(--space-4);
+    }
+
+    .section-inner,
+    .hero-inner {
+      max-width: var(--max);
+      margin: 0 auto;
+    }
+
+    .eyebrow,
+    .status,
+    .tag {
+      font-family: var(--mono);
+      font-size: .72rem;
+      letter-spacing: 0;
+      text-transform: uppercase;
+    }
+
+    .eyebrow {
+      color: var(--cyan);
+    }
+
+    h1,
+    h2,
+    h3,
+    p {
+      margin-top: 0;
+    }
+
+    h1 {
+      max-width: 10ch;
+      margin-bottom: var(--space-4);
+      font-size: clamp(3rem, 18vw, 12rem);
+      line-height: .8;
+      text-transform: uppercase;
+    }
+
+    h2 {
+      max-width: 14ch;
+      margin-bottom: var(--space-4);
+      font-size: clamp(2.35rem, 10vw, 6rem);
+      line-height: .92;
+      text-transform: uppercase;
+    }
+
+    h3 {
+      margin-bottom: var(--space-3);
+      font-size: 1.15rem;
+      line-height: 1.2;
+    }
+
+    .lead {
+      max-width: 46rem;
+      color: var(--muted);
+      font-size: clamp(1.1rem, 4vw, 1.55rem);
+    }
+
+    .hero {
+      min-height: 92vh;
+      padding: var(--space-8) var(--space-4) var(--space-16);
+    }
+
+    .hero-grid {
+      display: grid;
+      gap: var(--space-8);
+      align-items: end;
+    }
+
+    .hero-actions,
+    .cta-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: var(--space-3);
+      margin-top: var(--space-8);
+    }
+
+    .signal-box {
+      position: relative;
+      min-height: 18rem;
+      border: 1px solid rgba(242, 240, 232, .16);
+      border-radius: var(--radius);
+      background: linear-gradient(145deg, rgba(16,16,20,.96), rgba(5,5,6,.72));
+      overflow: hidden;
+    }
+
+    .signal-box::before {
+      content: "LIVE SIGNAL / CREW FREQUENCY";
+      position: absolute;
+      top: var(--space-4);
+      left: var(--space-4);
+      z-index: 2;
+      color: var(--cyan);
+      font-family: var(--mono);
+      font-size: .74rem;
+    }
+
+    .signal-box::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(90deg, transparent, rgba(215,255,47,.22), transparent);
+      transform: translateX(-100%);
+      animation: scan 4s linear infinite;
+    }
+
+    .wave {
+      position: absolute;
+      right: -6rem;
+      bottom: 2rem;
+      left: -6rem;
+      display: flex;
+      align-items: end;
+      gap: .38rem;
+      height: 11rem;
+      transform: skewX(-8deg);
+    }
+
+    .wave span {
+      flex: 1;
+      min-width: .28rem;
+      height: calc(var(--level) * 1%);
+      background: linear-gradient(180deg, var(--acid), var(--cyan) 58%, var(--magenta));
+      box-shadow: 0 0 18px rgba(55,240,255,.28);
+      animation: equalize 1.15s ease-in-out infinite alternate;
+      animation-delay: calc(var(--delay) * -1s);
+    }
+
+    .signal-note {
+      position: absolute;
+      right: var(--space-4);
+      bottom: var(--space-4);
+      left: var(--space-4);
+      color: var(--muted);
+      font-family: var(--mono);
+      font-size: .78rem;
+    }
+
+    .section-head {
+      display: grid;
+      gap: var(--space-3);
+      margin-bottom: var(--space-8);
+    }
+
+    .section-head p {
+      max-width: 42rem;
+      color: var(--muted);
+      font-size: 1.08rem;
+    }
+
+    .grid {
+      display: grid;
+      gap: var(--space-4);
+    }
+
+    .card {
+      border: 1px solid rgba(242, 240, 232, .13);
+      border-radius: var(--radius);
+      background: rgba(16, 16, 20, .82);
+      padding: var(--space-5, 1.25rem);
+      transition: transform .18s ease, border-color .18s ease, background .18s ease;
+    }
+
+    .card:hover {
+      transform: translateY(-3px);
+      border-color: rgba(55, 240, 255, .52);
+      background: rgba(23, 23, 29, .92);
+    }
+
+    .card p {
+      color: var(--muted);
+    }
+
+    .tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: .45rem;
+      margin-top: var(--space-4);
+    }
+
+    .tag,
+    .status {
+      border: 1px solid rgba(242, 240, 232, .16);
+      border-radius: 999px;
+      padding: .25rem .55rem;
+      color: var(--metal);
+    }
+
+    .status {
+      display: inline-flex;
+      margin-bottom: var(--space-4);
+      color: var(--acid);
+    }
+
+    .music-panel {
+      border-left: .45rem solid var(--magenta);
+      background:
+        repeating-linear-gradient(90deg, rgba(55,240,255,.2) 0 2px, transparent 2px 18px),
+        rgba(16,16,20,.82);
+    }
+
+    .event-row {
+      display: grid;
+      gap: var(--space-3);
+      border-bottom: 1px solid rgba(242, 240, 232, .13);
+      padding: var(--space-5, 1.25rem) 0;
+    }
+
+    .event-date {
+      color: var(--cyan);
+      font-family: var(--mono);
+      font-size: .82rem;
+      text-transform: uppercase;
+    }
+
+    .manifesto {
+      background:
+        linear-gradient(120deg, rgba(215,255,47,.08), transparent 34%),
+        linear-gradient(280deg, rgba(255,61,154,.08), transparent 32%),
+        #08080a;
+    }
+
+    .manifesto-lines {
+      display: grid;
+      gap: var(--space-4);
+      margin: 0;
+      padding: 0;
+      list-style: none;
+      font-size: clamp(1.35rem, 6vw, 3.3rem);
+      font-weight: 900;
+      line-height: 1;
+      text-transform: uppercase;
+    }
+
+    .manifesto-lines li {
+      border-top: 1px solid rgba(242, 240, 232, .16);
+      padding-top: var(--space-4);
+    }
+
+    .booking {
+      border: 1px solid rgba(215, 255, 47, .42);
+      border-radius: var(--radius);
+      background: linear-gradient(135deg, rgba(215,255,47,.13), rgba(55,240,255,.06) 45%, rgba(255,61,154,.08));
+      padding: var(--space-8);
+    }
+
+    .booking p {
+      max-width: 40rem;
+      color: var(--muted);
+    }
+
+    .meta-note {
+      color: var(--metal);
+      font-family: var(--mono);
+      font-size: .78rem;
+    }
+
+    .footer {
+      padding: var(--space-12) var(--space-4);
+      border-top: 1px solid rgba(242, 240, 232, .13);
+      color: var(--muted);
+    }
+
+    .footer-inner {
+      display: grid;
+      gap: var(--space-6);
+      max-width: var(--max);
+      margin: 0 auto;
+    }
+
+    .footer-links {
+      display: flex;
+      flex-wrap: wrap;
+      gap: var(--space-4);
+      font-family: var(--mono);
+      font-size: .8rem;
+      text-transform: uppercase;
+    }
+
+    @keyframes scan {
+      to {
+        transform: translateX(100%);
+      }
+    }
+
+    @keyframes equalize {
+      from {
+        height: calc((var(--level) * .56) * 1%);
+      }
+      to {
+        height: calc((var(--level) * 1.05) * 1%);
+      }
+    }
+
+    @media (min-width: 720px) {
+      .nav-links {
+        display: flex;
+      }
+
+      .hero-grid {
+        grid-template-columns: minmax(0, 1fr) minmax(19rem, .72fr);
+      }
+
+      .section-head {
+        grid-template-columns: minmax(0, .85fr) minmax(18rem, 1fr);
+        align-items: end;
+      }
+
+      .grid.three {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+      }
+
+      .grid.two {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+
+      .event-row {
+        grid-template-columns: 10rem minmax(0, 1fr) auto;
+        align-items: center;
+      }
+
+      .footer-inner {
+        grid-template-columns: minmax(0, 1fr) auto;
+        align-items: start;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *,
+      *::before,
+      *::after {
+        scroll-behavior: auto !important;
+        animation-duration: .001ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: .001ms !important;
+      }
+    }
+  </style>
 </head>
 <body>
-  <main>
-    <h1>CyberDJs</h1>
-    <p>GitHub deploy is working.</p>
+  <header class="site-header">
+    <nav class="nav" aria-label="Primary navigation">
+      <a class="brand" href="#top" aria-label="CyberDJs home">
+        <span class="brand-mark" aria-hidden="true"></span>
+        <span>CyberDJs</span>
+      </a>
+      <div class="nav-links" aria-label="Homepage sections">
+        <a href="#crew">Crew</a>
+        <a href="#sound">Sound</a>
+        <a href="#events">Events</a>
+        <a href="#lab">Lab</a>
+      </div>
+      <a class="button" href="mailto:booking@cyberdjs.org?subject=CyberDJs%20booking%20inquiry">Book</a>
+    </nav>
+  </header>
+
+  <main id="top">
+    <section class="hero" aria-labelledby="hero-title">
+      <div class="hero-inner hero-grid">
+        <div>
+          <p class="eyebrow">Artist crew / pirate radio / music lab</p>
+          <h1 id="hero-title">CyberDJs</h1>
+          <p class="lead">Underground signal for future dancefloors. DJs, producers and music-technology experiments from the edge of the booth.</p>
+          <div class="hero-actions" aria-label="Primary actions">
+            <a class="button" href="mailto:booking@cyberdjs.org?subject=CyberDJs%20booking%20inquiry">Start a booking</a>
+            <a class="button secondary" href="#sound">Hear the signal</a>
+          </div>
+          <p class="meta-note">Booking is open. Crew roster opening soon.</p>
+        </div>
+        <div class="signal-box" aria-label="CSS-only animated CyberDJs signal visual">
+          <div class="wave" aria-hidden="true">
+            <span style="--level: 44; --delay: .1"></span><span style="--level: 78; --delay: .4"></span><span style="--level: 32; --delay: .8"></span><span style="--level: 92; --delay: .2"></span><span style="--level: 58; --delay: .6"></span><span style="--level: 86; --delay: .9"></span><span style="--level: 38; --delay: .3"></span><span style="--level: 72; --delay: .7"></span><span style="--level: 48; --delay: .5"></span><span style="--level: 96; --delay: .15"></span><span style="--level: 54; --delay: .75"></span><span style="--level: 82; --delay: .35"></span>
+          </div>
+          <p class="signal-note">Hover the page: the booth stays quiet. No autoplay, only intent.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="crew" aria-labelledby="crew-title">
+      <div class="section-inner">
+        <div class="section-head">
+          <div>
+            <p class="eyebrow">Crew preview</p>
+            <h2 id="crew-title">People before machines.</h2>
+          </div>
+          <p>Crew formats are opening in phases, with names, aliases, locations and verified public links coming online as they are ready.</p>
+        </div>
+        <div class="grid three">
+          <article class="card">
+            <span class="status">Roster opening soon</span>
+            <h3>Resident signal</h3>
+            <p>Peak-time pressure, warehouse rhythm, precision edits and room-first programming.</p>
+            <div class="tags"><span class="tag">club</span><span class="tag">techno</span><span class="tag">hybrid</span></div>
+          </article>
+          <article class="card">
+            <span class="status">Roster opening soon</span>
+            <h3>Pirate radio operator</h3>
+            <p>Long-form transmissions for late rooms, small hours and rough-edged listening sessions.</p>
+            <div class="tags"><span class="tag">radio</span><span class="tag">bass</span><span class="tag">leftfield</span></div>
+          </article>
+          <article class="card">
+            <span class="status">Roster opening soon</span>
+            <h3>Lab collaborator</h3>
+            <p>Visual systems, tools and machine-assisted workflows wired into human taste.</p>
+            <div class="tags"><span class="tag">visuals</span><span class="tag">tools</span><span class="tag">AI</span></div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="sound" aria-labelledby="sound-title">
+      <div class="section-inner">
+        <div class="section-head">
+          <div>
+            <p class="eyebrow">Sound / music</p>
+            <h2 id="sound-title">No autoplay. Press play elsewhere.</h2>
+          </div>
+          <p>Music embeds should be added only after platforms and privacy expectations are verified. For now, this section exposes the shape of mixes, releases and transmissions.</p>
+        </div>
+        <div class="grid two">
+          <article class="card music-panel">
+            <span class="status">Mix slot</span>
+            <h3>Basement transmission 001</h3>
+            <p>A future verified mix can live here with platform, date, artist IDs and a non-autoplay link.</p>
+            <div class="tags"><span class="tag">mix</span><span class="tag">60 min</span><span class="tag">link incoming</span></div>
+          </article>
+          <article class="card music-panel">
+            <span class="status">Release slot</span>
+            <h3>Signal archive</h3>
+            <p>Releases, playlists or videos can be represented without loading third-party players by default.</p>
+            <div class="tags"><span class="tag">release</span><span class="tag">playlist</span><span class="tag">video</span></div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="events" aria-labelledby="events-title">
+      <div class="section-inner">
+        <div class="section-head">
+          <div>
+            <p class="eyebrow">Events</p>
+            <h2 id="events-title">Rooms, streams, collisions.</h2>
+          </div>
+          <p>Confirmed dates should appear first. Until event data is verified, booking stays the primary live action.</p>
+        </div>
+        <div aria-label="Upcoming event formats">
+          <article class="event-row">
+            <div class="event-date">Upcoming / TBA</div>
+            <div>
+              <h3>Club night format</h3>
+              <p>CyberDJs crew set for dark rooms, precise systems and serious low end.</p>
+            </div>
+            <span class="status">Bookable</span>
+          </article>
+          <article class="event-row">
+            <div class="event-date">Collab / TBA</div>
+            <div>
+              <h3>Lab session or workshop</h3>
+              <p>Music-tech demo, DJ workflow experiment, visual system or CyberCore-connected session.</p>
+            </div>
+            <span class="status">Dates to be announced</span>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="lab" aria-labelledby="lab-title">
+      <div class="section-inner">
+        <div class="section-head">
+          <div>
+            <p class="eyebrow">Projects / lab</p>
+            <h2 id="lab-title">The booth is a test bench.</h2>
+          </div>
+          <p>CyberCore, dumpAmp and DJ tooling stay framed as active lab work while public demos and deeper case studies come online.</p>
+        </div>
+        <div class="grid three">
+          <article class="card">
+            <span class="status">Prototype</span>
+            <h3>CyberCore workflows</h3>
+            <p>Music operations, safety-minded automation and local-first creative tooling.</p>
+            <div class="tags"><span class="tag">CyberCore</span><span class="tag">workflow</span></div>
+          </article>
+          <article class="card">
+            <span class="status">Lab</span>
+            <h3>dumpAmp direction</h3>
+            <p>DJ utility experiments for track handling, set preparation and signal-aware interfaces.</p>
+            <div class="tags"><span class="tag">DJ tools</span><span class="tag">audio</span></div>
+          </article>
+          <article class="card">
+            <span class="status">Research</span>
+            <h3>Machine-assisted taste</h3>
+            <p>Human instinct amplified by machines, never replaced by them.</p>
+            <div class="tags"><span class="tag">AI workflow</span><span class="tag">human</span></div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section manifesto" aria-labelledby="manifesto-title">
+      <div class="section-inner">
+        <p class="eyebrow">Manifesto</p>
+        <h2 id="manifesto-title">Signal rules.</h2>
+        <ul class="manifesto-lines">
+          <li>We play records, break systems and build the tools we wish existed.</li>
+          <li>No autoplay. No template cult. No corporate fog machine.</li>
+          <li>Human instinct amplified by machines, not replaced by them.</li>
+        </ul>
+      </div>
+    </section>
+
+    <section class="section" id="booking" aria-labelledby="booking-title">
+      <div class="section-inner booking">
+        <p class="eyebrow">Booking</p>
+        <h2 id="booking-title">Bring the crew into the room.</h2>
+        <p>For clubs, festivals, private events, streams, workshops and music-tech collaborations. Include date, city, venue or context, expected audience and the format you need.</p>
+        <div class="cta-actions">
+          <a class="button" href="mailto:booking@cyberdjs.org?subject=CyberDJs%20booking%20inquiry">Email booking</a>
+          <a class="button secondary" href="#crew">Review crew formats</a>
+        </div>
+        <p class="meta-note">Booking formats available. Verified links coming online.</p>
+      </div>
+    </section>
   </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+      <div>
+        <strong>CyberDJs</strong>
+        <p>Underground artist crew, booking signal and future music lab. Prague / Berlin frequency, first transmissions incoming.</p>
+      </div>
+      <nav class="footer-links" aria-label="Footer navigation">
+        <a href="#top">Top</a>
+        <a href="#sound">Sound</a>
+        <a href="#events">Events</a>
+        <a href="mailto:booking@cyberdjs.org?subject=CyberDJs%20booking%20inquiry">Booking</a>
+      </nav>
+    </div>
+  </footer>
 </body>
 </html>
