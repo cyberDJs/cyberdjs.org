@@ -118,8 +118,7 @@
       inset: 0;
       pointer-events: none;
       background: repeating-linear-gradient(180deg, rgba(255,255,255,.035), rgba(255,255,255,.035) 1px, transparent 1px, transparent 6px);
-      mix-blend-mode: soft-light;
-      opacity: .35;
+      opacity: .18;
       z-index: 20;
     }
 
@@ -357,6 +356,7 @@
       background: linear-gradient(90deg, transparent, rgba(215,255,47,.22), transparent);
       transform: translateX(-100%);
       animation: scan 4s linear infinite;
+      will-change: transform;
     }
 
     .wave {
@@ -377,24 +377,27 @@
       height: calc(var(--level) * 1%);
       background: linear-gradient(180deg, var(--acid), var(--cyan) 58%, var(--magenta));
       box-shadow: 0 0 18px rgba(55,240,255,.28);
+      transform: scaleY(.72);
+      transform-origin: bottom;
       animation: equalize 1.15s ease-in-out infinite alternate;
       animation-delay: calc(var(--delay) * -1s);
+      will-change: transform;
     }
 
-.signal-note {
-  position: absolute;
-  right: var(--space-4);
-  bottom: var(--space-4);
-  left: var(--space-4);
-  max-width: 28rem;
-  padding: .55rem .7rem;
-  border: 1px solid rgba(242, 240, 232, .16);
-  border-radius: 6px;
-  background: rgba(5, 5, 6, .74);
-  color: var(--text);
-  font-family: var(--mono);
-  font-size: .78rem;
-}
+    .signal-note {
+      position: absolute;
+      right: var(--space-4);
+      bottom: var(--space-4);
+      left: var(--space-4);
+      max-width: 28rem;
+      padding: .55rem .7rem;
+      border: 1px solid rgba(242, 240, 232, .16);
+      border-radius: 6px;
+      background: rgba(5, 5, 6, .74);
+      color: var(--text);
+      font-family: var(--mono);
+      font-size: .78rem;
+    }
     .section-head {
       display: grid;
       gap: var(--space-3);
@@ -434,6 +437,7 @@
       display: grid;
       align-content: start;
       gap: var(--space-3);
+      min-height: 18rem;
     }
 
     .artist-card h3 {
@@ -482,6 +486,7 @@
     }
 
     .music-panel {
+      min-height: 16rem;
       border-left: .45rem solid var(--magenta);
       background:
         repeating-linear-gradient(90deg, rgba(55,240,255,.2) 0 2px, transparent 2px 18px),
@@ -579,6 +584,7 @@
       display: grid;
       align-content: start;
       gap: var(--space-3);
+      min-height: 21rem;
     }
 
     .project-card h3,
@@ -783,10 +789,10 @@
 
     @keyframes equalize {
       from {
-        height: calc((var(--level) * .56) * 1%);
+        transform: scaleY(.56);
       }
       to {
-        height: calc((var(--level) * 1.05) * 1%);
+        transform: scaleY(1.05);
       }
     }
 
@@ -877,6 +883,10 @@
 
       .signal-box::after {
         transform: none;
+      }
+
+      .wave span {
+        transform: scaleY(1);
       }
     }
   </style>
@@ -1382,6 +1392,13 @@
       parent.append(tags);
     };
 
+    const appendMetaList = (parent, className, values) => {
+      const meta = document.createElement("div");
+      meta.className = className;
+      values.forEach((value) => appendTextElement(meta, "span", "", value));
+      if (meta.children.length) parent.append(meta);
+    };
+
     const appendExternalLinks = (parent, items, ariaLabel) => {
       const validItems = items.filter((item) => item && item.url);
       if (!validItems.length) return;
@@ -1473,12 +1490,7 @@
 
       appendTextElement(card, "span", "status", artist.status);
       appendTextElement(card, "h3", "", artist.name);
-
-      const meta = document.createElement("div");
-      meta.className = "artist-meta";
-      appendTextElement(meta, "span", "", artist.role);
-      appendTextElement(meta, "span", "", artist.location);
-      if (meta.children.length) card.append(meta);
+      appendMetaList(card, "artist-meta", [artist.role, artist.location]);
 
       appendTextElement(card, "p", "", artist.shortBio);
       appendTagList(card, artist.genres || []);
@@ -1495,13 +1507,7 @@
 
       appendTextElement(card, "span", "status", item.status);
       appendTextElement(card, "h3", "", item.title);
-
-      const meta = document.createElement("div");
-      meta.className = "music-meta";
-      [item.type, item.artist, item.dateLabel, item.duration].forEach((value) => {
-        appendTextElement(meta, "span", "", value);
-      });
-      if (meta.children.length) card.append(meta);
+      appendMetaList(card, "music-meta", [item.type, item.artist, item.dateLabel, item.duration]);
 
       appendTextElement(card, "p", "", item.description);
       appendTagList(card, item.genres || []);
@@ -1540,13 +1546,7 @@
 
       const content = document.createElement("div");
       appendTextElement(content, "h3", "", event.title);
-
-      const meta = document.createElement("div");
-      meta.className = "event-meta";
-      [event.city, event.venue, event.format].forEach((value) => {
-        appendTextElement(meta, "span", "", value);
-      });
-      if (meta.children.length) content.append(meta);
+      appendMetaList(content, "event-meta", [event.city, event.venue, event.format]);
 
       appendTextElement(content, "p", "", event.description);
       appendTagList(content, event.tags || []);
@@ -1574,13 +1574,7 @@
 
         appendTextElement(card, "span", "status", project.status);
         appendTextElement(card, "h3", "", project.title);
-
-        const meta = document.createElement("div");
-        meta.className = "project-meta";
-        [project.type, formatLabel(project.visibility)].forEach((value) => {
-          appendTextElement(meta, "span", "", value);
-        });
-        if (meta.children.length) card.append(meta);
+        appendMetaList(card, "project-meta", [project.type, formatLabel(project.visibility)]);
 
         appendTextElement(card, "p", "", project.shortDescription);
         appendTextElement(card, "p", "", project.longDescription);
