@@ -92,6 +92,12 @@
       scroll-behavior: smooth;
     }
 
+    @media (prefers-reduced-motion: reduce) {
+      html {
+        scroll-behavior: auto;
+      }
+    }
+
     body {
       margin: 0;
       background:
@@ -134,6 +140,28 @@
     textarea:focus-visible {
       outline: 3px solid var(--focus);
       outline-offset: 4px;
+      box-shadow: 0 0 0 6px rgba(55, 240, 255, .24);
+    }
+
+    .skip-link {
+      position: fixed;
+      top: var(--space-4);
+      left: var(--space-4);
+      z-index: 30;
+      transform: translateY(calc(-100% - var(--space-8)));
+      border: 1px solid var(--acid);
+      border-radius: var(--radius);
+      background: var(--acid);
+      color: #111;
+      font-weight: 900;
+      padding: .75rem 1rem;
+      text-transform: uppercase;
+      text-decoration: none;
+      transition: transform .18s ease;
+    }
+
+    .skip-link:focus-visible {
+      transform: translateY(0);
     }
 
     .site-header {
@@ -217,6 +245,11 @@
 
     main {
       overflow: hidden;
+      scroll-margin-top: 5rem;
+    }
+
+    main:focus {
+      outline: none;
     }
 
     .section {
@@ -665,11 +698,12 @@
     }
 
     .field-hint {
-      color: var(--metal);
+      color: #d0c6ad;
     }
 
     .field-error {
-      color: var(--redline);
+      color: #ff8a80;
+      font-weight: 700;
     }
 
     .spam-trap {
@@ -686,7 +720,7 @@
       border-radius: 6px;
       background: rgba(5, 5, 6, .58);
       padding: .75rem;
-      color: var(--muted);
+      color: #d0c6ad;
     }
 
     .form-status[data-state="error"] {
@@ -831,14 +865,24 @@
       *::before,
       *::after {
         scroll-behavior: auto !important;
-        animation-duration: .001ms !important;
+        animation: none !important;
         animation-iteration-count: 1 !important;
         transition-duration: .001ms !important;
+      }
+
+      .button:hover,
+      .card:hover {
+        transform: none;
+      }
+
+      .signal-box::after {
+        transform: none;
       }
     }
   </style>
 </head>
-<body>
+<body id="top">
+  <a class="skip-link" href="#main-content">Skip to main content</a>
   <header class="site-header">
     <nav class="nav" aria-label="Primary navigation">
       <a class="brand" href="#top" aria-label="CyberDJs home">
@@ -855,7 +899,7 @@
     </nav>
   </header>
 
-  <main id="top">
+  <main id="main-content" tabindex="-1">
     <section class="hero" aria-labelledby="hero-title">
       <div class="hero-inner hero-grid">
         <div>
@@ -868,7 +912,7 @@
           </div>
           <p class="meta-note">Booking is open. Crew roster opening soon.</p>
         </div>
-        <div class="signal-box" aria-label="CSS-only animated CyberDJs signal visual">
+        <div class="signal-box" aria-hidden="true">
           <div class="wave" aria-hidden="true">
             <span style="--level: 44; --delay: .1"></span><span style="--level: 78; --delay: .4"></span><span style="--level: 32; --delay: .8"></span><span style="--level: 92; --delay: .2"></span><span style="--level: 58; --delay: .6"></span><span style="--level: 86; --delay: .9"></span><span style="--level: 38; --delay: .3"></span><span style="--level: 72; --delay: .7"></span><span style="--level: 48; --delay: .5"></span><span style="--level: 96; --delay: .15"></span><span style="--level: 54; --delay: .75"></span><span style="--level: 82; --delay: .35"></span>
           </div>
@@ -886,7 +930,7 @@
           </div>
           <p>Crew formats are opening in phases, with names, aliases, locations and verified public links coming online as they are ready.</p>
         </div>
-        <div class="grid three" id="artist-roster" aria-label="CyberDJs artist roster"></div>
+        <div class="grid three" id="artist-roster" aria-label="CyberDJs artist roster" role="list"></div>
         <noscript>
           <div class="grid three" aria-label="CyberDJs artist roster fallback">
             <article class="card artist-card">
@@ -924,7 +968,7 @@
           </div>
           <p>Music embeds should be added only after platforms and privacy expectations are verified. For now, this section exposes the shape of mixes, releases and transmissions.</p>
         </div>
-        <div class="grid two" id="music-roster" aria-label="CyberDJs music and sound"></div>
+        <div class="grid two" id="music-roster" aria-label="CyberDJs music and sound" role="list"></div>
         <noscript>
         <div class="grid two" aria-label="CyberDJs music and sound fallback">
           <article class="card music-panel">
@@ -955,13 +999,13 @@
           </div>
           <p>Confirmed dates should appear first. Until event data is verified, booking stays the primary live action.</p>
         </div>
-        <div class="events-list" id="events-upcoming" aria-label="Upcoming CyberDJs events"></div>
+        <div class="events-list" id="events-upcoming" aria-label="Upcoming CyberDJs events" role="list"></div>
         <div class="event-empty" id="events-empty" role="status" hidden>
           <span class="status">No confirmed dates</span>
           <p>No public upcoming CyberDJs events are confirmed yet. Booking remains open for clubs, festivals, streams, workshops and collaborations.</p>
         </div>
         <h3 class="events-archive-title" id="events-archive-title" hidden>Past / archived formats</h3>
-        <div class="events-list" id="events-archive" aria-labelledby="events-archive-title"></div>
+        <div class="events-list" id="events-archive" aria-labelledby="events-archive-title" role="list"></div>
         <noscript>
           <div class="event-empty" role="status">
             <span class="status">No confirmed dates</span>
@@ -1002,7 +1046,7 @@
           </div>
           <p>CyberCore, dumpAmp and DJ tooling stay framed as active lab work while public demos and deeper case studies come online.</p>
         </div>
-        <div class="grid three" id="project-roster" aria-label="CyberDJs projects and lab work"></div>
+        <div class="grid three" id="project-roster" aria-label="CyberDJs projects and lab work" role="list"></div>
         <noscript>
           <div class="grid three" aria-label="CyberDJs projects and lab work fallback">
             <article class="card project-card">
@@ -1425,6 +1469,7 @@
       const card = document.createElement("article");
       card.className = "card artist-card";
       card.id = `artist-${artist.id}`;
+      card.setAttribute("role", "listitem");
 
       appendTextElement(card, "span", "status", artist.status);
       appendTextElement(card, "h3", "", artist.name);
@@ -1446,6 +1491,7 @@
       const card = document.createElement("article");
       card.className = "card music-panel";
       card.id = `music-${item.id}`;
+      card.setAttribute("role", "listitem");
 
       appendTextElement(card, "span", "status", item.status);
       appendTextElement(card, "h3", "", item.title);
@@ -1482,6 +1528,7 @@
       const card = document.createElement("article");
       card.className = "event-row";
       card.id = `event-${event.id}`;
+      card.setAttribute("role", "listitem");
       card.dataset.eventId = event.id;
       card.dataset.eventCategory = event.category;
 
@@ -1521,6 +1568,7 @@
         const card = document.createElement("article");
         card.className = "card project-card";
         card.id = `project-${project.id}`;
+        card.setAttribute("role", "listitem");
         card.dataset.projectId = project.id;
         card.dataset.projectVisibility = project.visibility;
 
