@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-labelledby="title desc">
+  <title id="title">CyberDJs favicon</title>
+  <desc id="desc">Acid signal grid mark on a dark background.</desc>
+  <rect width="64" height="64" rx="8" fill="#050506"/>
+  <path d="M12 12h40v40H12z" fill="#101014" stroke="#d7ff2f" stroke-width="2"/>
+  <path d="M18 18v28M26 18v28M34 18v28M42 18v28M18 46h28" stroke="#d7ff2f" stroke-width="3" stroke-linecap="square"/>
+  <path d="M14 32h36" stroke="#37f0ff" stroke-width="2" stroke-dasharray="3 4"/>
+  <path d="M20 40l6-14 6 8 6-14 6 20" fill="none" stroke="#ff3d9a" stroke-width="3" stroke-linejoin="round"/>
+</svg>
