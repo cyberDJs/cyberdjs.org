@@ -356,6 +356,36 @@
       color: var(--muted);
     }
 
+    .artist-card {
+      display: grid;
+      align-content: start;
+      gap: var(--space-3);
+    }
+
+    .artist-card h3 {
+      margin-bottom: 0;
+    }
+
+    .artist-meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: .45rem .75rem;
+      color: var(--metal);
+      font-family: var(--mono);
+      font-size: .78rem;
+      text-transform: uppercase;
+    }
+
+    .artist-links {
+      display: flex;
+      flex-wrap: wrap;
+      gap: var(--space-3);
+      margin-top: var(--space-2);
+      font-family: var(--mono);
+      font-size: .78rem;
+      text-transform: uppercase;
+    }
+
     .tags {
       display: flex;
       flex-wrap: wrap;
@@ -570,26 +600,32 @@
           </div>
           <p>Crew formats are opening in phases, with names, aliases, locations and verified public links coming online as they are ready.</p>
         </div>
-        <div class="grid three">
-          <article class="card">
-            <span class="status">Roster opening soon</span>
-            <h3>Resident signal</h3>
-            <p>Peak-time pressure, warehouse rhythm, precision edits and room-first programming.</p>
-            <div class="tags"><span class="tag">club</span><span class="tag">techno</span><span class="tag">hybrid</span></div>
-          </article>
-          <article class="card">
-            <span class="status">Roster opening soon</span>
-            <h3>Pirate radio operator</h3>
-            <p>Long-form transmissions for late rooms, small hours and rough-edged listening sessions.</p>
-            <div class="tags"><span class="tag">radio</span><span class="tag">bass</span><span class="tag">leftfield</span></div>
-          </article>
-          <article class="card">
-            <span class="status">Roster opening soon</span>
-            <h3>Lab collaborator</h3>
-            <p>Visual systems, tools and machine-assisted workflows wired into human taste.</p>
-            <div class="tags"><span class="tag">visuals</span><span class="tag">tools</span><span class="tag">AI</span></div>
-          </article>
-        </div>
+        <div class="grid three" id="artist-roster" aria-label="CyberDJs artist roster"></div>
+        <noscript>
+          <div class="grid three" aria-label="CyberDJs artist roster fallback">
+            <article class="card artist-card">
+              <span class="status">Roster opening soon</span>
+              <h3>Resident signal</h3>
+              <div class="artist-meta"><span>DJ / producer</span><span>Location TBA</span></div>
+              <p>Peak-time pressure, warehouse rhythm, precision edits and room-first programming.</p>
+              <div class="tags"><span class="tag">club</span><span class="tag">techno</span><span class="tag">hybrid</span></div>
+            </article>
+            <article class="card artist-card">
+              <span class="status">Roster opening soon</span>
+              <h3>Pirate radio operator</h3>
+              <div class="artist-meta"><span>Selector</span><span>Location TBA</span></div>
+              <p>Long-form transmissions for late rooms, small hours and rough-edged listening sessions.</p>
+              <div class="tags"><span class="tag">radio</span><span class="tag">bass</span><span class="tag">leftfield</span></div>
+            </article>
+            <article class="card artist-card">
+              <span class="status">Roster opening soon</span>
+              <h3>Lab collaborator</h3>
+              <div class="artist-meta"><span>Visuals / tools</span><span>Location TBA</span></div>
+              <p>Visual systems, tools and machine-assisted workflows wired into human taste.</p>
+              <div class="tags"><span class="tag">visuals</span><span class="tag">tools</span><span class="tag">AI</span></div>
+            </article>
+          </div>
+        </noscript>
       </div>
     </section>
 
@@ -721,5 +757,118 @@
       </nav>
     </div>
   </footer>
+  <script>
+    // Provisional public-safe placeholders. Owner verification required before publishing real artist claims.
+    const artists = [
+      {
+        id: "resident-signal",
+        name: "Resident signal",
+        role: "DJ / producer",
+        shortBio: "Peak-time pressure, warehouse rhythm, precision edits and room-first programming.",
+        genres: ["club", "techno", "hybrid"],
+        location: "Location TBA",
+        status: "Roster opening soon",
+        links: {},
+        media: []
+      },
+      {
+        id: "pirate-radio-operator",
+        name: "Pirate radio operator",
+        role: "Selector",
+        shortBio: "Long-form transmissions for late rooms, small hours and rough-edged listening sessions.",
+        genres: ["radio", "bass", "leftfield"],
+        location: "Location TBA",
+        status: "Roster opening soon",
+        links: {},
+        media: []
+      },
+      {
+        id: "lab-collaborator",
+        name: "Lab collaborator",
+        role: "Visuals / tools",
+        shortBio: "Visual systems, tools and machine-assisted workflows wired into human taste.",
+        genres: ["visuals", "tools", "AI"],
+        location: "Location TBA",
+        status: "Roster opening soon",
+        links: {},
+        media: []
+      }
+    ];
+
+    const artistRoster = document.querySelector("#artist-roster");
+    const fragment = document.createDocumentFragment();
+
+    const text = (value) => document.createTextNode(value);
+
+    const appendTextElement = (parent, tagName, className, value) => {
+      if (!value) return null;
+      const element = document.createElement(tagName);
+      if (className) element.className = className;
+      element.append(text(value));
+      parent.append(element);
+      return element;
+    };
+
+    const appendTagList = (parent, values) => {
+      const validValues = values.filter(Boolean);
+      if (!validValues.length) return;
+
+      const tags = document.createElement("div");
+      tags.className = "tags";
+      validValues.forEach((value) => appendTextElement(tags, "span", "tag", value));
+      parent.append(tags);
+    };
+
+    const appendLinks = (parent, artist) => {
+      const linkEntries = Object.entries(artist.links || {}).filter(([, href]) => href);
+      const mediaEntries = (artist.media || []).filter((item) => item && item.url);
+      if (!linkEntries.length && !mediaEntries.length) return;
+
+      const links = document.createElement("div");
+      links.className = "artist-links";
+      links.setAttribute("aria-label", `${artist.name} links`);
+
+      linkEntries.forEach(([label, href]) => {
+        const link = document.createElement("a");
+        link.href = href;
+        link.rel = "me noopener";
+        link.append(text(label));
+        links.append(link);
+      });
+
+      mediaEntries.forEach((item) => {
+        const link = document.createElement("a");
+        link.href = item.url;
+        link.rel = "noopener";
+        link.append(text(item.label || item.type || "media"));
+        links.append(link);
+      });
+
+      parent.append(links);
+    };
+
+    artists.forEach((artist) => {
+      const card = document.createElement("article");
+      card.className = "card artist-card";
+      card.id = `artist-${artist.id}`;
+
+      appendTextElement(card, "span", "status", artist.status);
+      appendTextElement(card, "h3", "", artist.name);
+
+      const meta = document.createElement("div");
+      meta.className = "artist-meta";
+      appendTextElement(meta, "span", "", artist.role);
+      appendTextElement(meta, "span", "", artist.location);
+      if (meta.children.length) card.append(meta);
+
+      appendTextElement(card, "p", "", artist.shortBio);
+      appendTagList(card, artist.genres || []);
+      appendLinks(card, artist);
+
+      fragment.append(card);
+    });
+
+    artistRoster.append(fragment);
+  </script>
 </body>
 </html>
