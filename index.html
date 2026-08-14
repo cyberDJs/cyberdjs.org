@@ -501,6 +501,38 @@
       color: var(--muted);
     }
 
+    .project-card {
+      display: grid;
+      align-content: start;
+      gap: var(--space-3);
+    }
+
+    .project-card h3,
+    .project-card p {
+      margin-bottom: 0;
+    }
+
+    .project-meta,
+    .project-links {
+      display: flex;
+      flex-wrap: wrap;
+      gap: .45rem .75rem;
+      font-family: var(--mono);
+      font-size: .78rem;
+      text-transform: uppercase;
+    }
+
+    .project-meta {
+      color: var(--metal);
+    }
+
+    .project-relation {
+      border-left: 2px solid rgba(215, 255, 47, .62);
+      padding-left: var(--space-3);
+      color: var(--text);
+      font-size: .94rem;
+    }
+
     [hidden] {
       display: none !important;
     }
@@ -602,6 +634,11 @@
 
       #sound .section-head {
         grid-template-columns: minmax(0, .72fr) minmax(22rem, 1fr);
+        align-items: center;
+      }
+
+      #lab .section-head {
+        grid-template-columns: minmax(0, .72fr) minmax(24rem, 1fr);
         align-items: center;
       }
 
@@ -813,26 +850,35 @@
           </div>
           <p>CyberCore, dumpAmp and DJ tooling stay framed as active lab work while public demos and deeper case studies come online.</p>
         </div>
-        <div class="grid three">
-          <article class="card">
-            <span class="status">Prototype</span>
-            <h3>CyberCore workflows</h3>
-            <p>Music operations, safety-minded automation and local-first creative tooling.</p>
-            <div class="tags"><span class="tag">CyberCore</span><span class="tag">workflow</span></div>
-          </article>
-          <article class="card">
-            <span class="status">Lab</span>
-            <h3>dumpAmp direction</h3>
-            <p>DJ utility experiments for track handling, set preparation and signal-aware interfaces.</p>
-            <div class="tags"><span class="tag">DJ tools</span><span class="tag">audio</span></div>
-          </article>
-          <article class="card">
-            <span class="status">Research</span>
-            <h3>Machine-assisted taste</h3>
-            <p>Human instinct amplified by machines, never replaced by them.</p>
-            <div class="tags"><span class="tag">AI workflow</span><span class="tag">human</span></div>
-          </article>
-        </div>
+        <div class="grid three" id="project-roster" aria-label="CyberDJs projects and lab work"></div>
+        <noscript>
+          <div class="grid three" aria-label="CyberDJs projects and lab work fallback">
+            <article class="card project-card">
+              <span class="status">Prototype</span>
+              <h3>CyberCore workflows</h3>
+              <div class="project-meta"><span>Music technology</span><span>Public-safe placeholder</span></div>
+              <p>Music operations, safety-minded automation and local-first creative tooling.</p>
+              <p class="project-relation">Supports the crew through preparation, publishing hygiene and backstage systems.</p>
+              <div class="tags"><span class="tag">CyberCore</span><span class="tag">workflow</span></div>
+            </article>
+            <article class="card project-card">
+              <span class="status">Lab</span>
+              <h3>dumpAmp direction</h3>
+              <div class="project-meta"><span>DJ tools</span><span>Public-safe placeholder</span></div>
+              <p>DJ utility experiments for track handling, set preparation and signal-aware interfaces.</p>
+              <p class="project-relation">Keeps the lab close to the booth: crates, sets and rough working rituals.</p>
+              <div class="tags"><span class="tag">DJ tools</span><span class="tag">audio</span></div>
+            </article>
+            <article class="card project-card">
+              <span class="status">Research</span>
+              <h3>Visual systems / live lab</h3>
+              <div class="project-meta"><span>Visual system</span><span>Public-safe placeholder</span></div>
+              <p>Signal graphics, live visual language and stage-facing experiments for future shows.</p>
+              <p class="project-relation">Extends CyberDJs mythology without pushing the crew behind the machine.</p>
+              <div class="tags"><span class="tag">visuals</span><span class="tag">live lab</span></div>
+            </article>
+          </div>
+        </noscript>
       </div>
     </section>
 
@@ -979,16 +1025,70 @@
       }
     ];
 
+    // Provisional public-safe placeholders. Owner verification required before publishing repos, demos, docs or capability claims.
+    const projects = [
+      {
+        id: "cybercore-workflows",
+        title: "CyberCore workflows",
+        status: "Prototype",
+        type: "Music technology",
+        shortDescription: "Music operations, safety-minded automation and local-first creative tooling.",
+        longDescription: "A backstage systems layer for preparation, archiving and release discipline. Details stay deliberately broad until public claims are verified.",
+        tags: ["CyberCore", "workflow", "local-first"],
+        links: {
+          repo: "",
+          docs: "",
+          demo: ""
+        },
+        relationToCrew: "Supports the crew through preparation, publishing hygiene and backstage systems.",
+        visibility: "public-placeholder"
+      },
+      {
+        id: "dumpamp-direction",
+        title: "dumpAmp direction",
+        status: "Lab",
+        type: "DJ tools",
+        shortDescription: "DJ utility experiments for track handling, set preparation and signal-aware interfaces.",
+        longDescription: "A place for booth-adjacent tool sketches kept intentionally raw until verified outputs are ready.",
+        tags: ["DJ tools", "audio", "set prep"],
+        links: {
+          repo: "",
+          docs: "",
+          demo: ""
+        },
+        relationToCrew: "Keeps the lab close to the booth: crates, sets and rough working rituals.",
+        visibility: "public-placeholder"
+      },
+      {
+        id: "visual-systems-live-lab",
+        title: "Visual systems / live lab",
+        status: "Research",
+        type: "Visual system",
+        shortDescription: "Signal graphics, live visual language and stage-facing experiments for future shows.",
+        longDescription: "Visual systems for flyers, screens and live-room mythology, held as lab material until confirmed outputs exist.",
+        tags: ["visuals", "live lab", "signal"],
+        links: {
+          repo: "",
+          docs: "",
+          demo: ""
+        },
+        relationToCrew: "Extends CyberDJs mythology without pushing the crew behind the machine.",
+        visibility: "public-placeholder"
+      }
+    ];
+
     const artistRoster = document.querySelector("#artist-roster");
     const musicRoster = document.querySelector("#music-roster");
     const upcomingEvents = document.querySelector("#events-upcoming");
     const archivedEvents = document.querySelector("#events-archive");
     const eventsEmpty = document.querySelector("#events-empty");
     const eventsArchiveTitle = document.querySelector("#events-archive-title");
+    const projectRoster = document.querySelector("#project-roster");
     const artistFragment = document.createDocumentFragment();
     const musicFragment = document.createDocumentFragment();
     const upcomingEventsFragment = document.createDocumentFragment();
     const archivedEventsFragment = document.createDocumentFragment();
+    const projectFragment = document.createDocumentFragment();
 
     const text = (value) => document.createTextNode(value);
 
@@ -1000,6 +1100,8 @@
       parent.append(element);
       return element;
     };
+
+    const formatLabel = (value) => value.replaceAll("-", " ");
 
     const appendTagList = (parent, values) => {
       const validValues = values.filter(Boolean);
@@ -1024,6 +1126,28 @@
         link.href = item.url;
         link.rel = "noopener";
         link.append(text(item.label || item.type || "Open"));
+        links.append(link);
+      });
+
+      parent.append(links);
+    };
+
+    const appendProjectLinks = (parent, project) => {
+      const linkItems = Object.entries(project.links || {})
+        .filter(([, url]) => url)
+        .map(([type, url]) => ({ type, url, label: formatLabel(type) }));
+
+      if (!linkItems.length) return;
+
+      const links = document.createElement("div");
+      links.className = "project-links";
+      links.setAttribute("aria-label", `${project.title} links`);
+
+      linkItems.forEach((item) => {
+        const link = document.createElement("a");
+        link.href = item.url;
+        link.rel = "noopener";
+        link.append(text(item.label));
         links.append(link);
       });
 
@@ -1166,10 +1290,39 @@
       }
     });
 
+    projects
+      .filter((project) => project.visibility !== "hidden")
+      .forEach((project) => {
+        const card = document.createElement("article");
+        card.className = "card project-card";
+        card.id = `project-${project.id}`;
+        card.dataset.projectId = project.id;
+        card.dataset.projectVisibility = project.visibility;
+
+        appendTextElement(card, "span", "status", project.status);
+        appendTextElement(card, "h3", "", project.title);
+
+        const meta = document.createElement("div");
+        meta.className = "project-meta";
+        [project.type, formatLabel(project.visibility)].forEach((value) => {
+          appendTextElement(meta, "span", "", value);
+        });
+        if (meta.children.length) card.append(meta);
+
+        appendTextElement(card, "p", "", project.shortDescription);
+        appendTextElement(card, "p", "", project.longDescription);
+        appendTextElement(card, "p", "project-relation", project.relationToCrew);
+        appendTagList(card, project.tags || []);
+        appendProjectLinks(card, project);
+
+        projectFragment.append(card);
+      });
+
     artistRoster.append(artistFragment);
     musicRoster.append(musicFragment);
     upcomingEvents.append(upcomingEventsFragment);
     archivedEvents.append(archivedEventsFragment);
+    projectRoster.append(projectFragment);
 
     eventsEmpty.hidden = upcomingEvents.children.length > 0;
     eventsArchiveTitle.hidden = archivedEvents.children.length === 0;
