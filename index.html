@@ -414,6 +414,34 @@
         rgba(16,16,20,.82);
     }
 
+    .music-meta,
+    .music-links {
+      display: flex;
+      flex-wrap: wrap;
+      gap: .45rem .75rem;
+      font-family: var(--mono);
+      font-size: .78rem;
+      text-transform: uppercase;
+    }
+
+    .music-meta {
+      color: var(--metal);
+    }
+
+    .music-links {
+      margin-top: var(--space-4);
+    }
+
+    .embed-placeholder {
+      margin-top: var(--space-4);
+      padding: .75rem;
+      border: 1px dashed rgba(55, 240, 255, .42);
+      border-radius: 6px;
+      background: rgba(5, 5, 6, .56);
+      color: var(--metal);
+      font-size: .9rem;
+    }
+
     .event-row {
       display: grid;
       gap: var(--space-3);
@@ -507,7 +535,17 @@
       }
     }
 
+    #sound-title {
+      max-width: 12ch;
+      font-size: clamp(2.35rem, 7vw, 5rem);
+    }
+
     @media (min-width: 720px) {
+      #sound .section-head {
+        grid-template-columns: minmax(0, .72fr) minmax(22rem, 1fr);
+        align-items: center;
+      }
+
       .nav-links {
         display: flex;
       }
@@ -638,20 +676,25 @@
           </div>
           <p>Music embeds should be added only after platforms and privacy expectations are verified. For now, this section exposes the shape of mixes, releases and transmissions.</p>
         </div>
-        <div class="grid two">
+        <div class="grid two" id="music-roster" aria-label="CyberDJs music and sound"></div>
+        <noscript>
+        <div class="grid two" aria-label="CyberDJs music and sound fallback">
           <article class="card music-panel">
             <span class="status">Mix slot</span>
             <h3>Basement transmission 001</h3>
+            <div class="music-meta"><span>Resident signal</span><span>Date TBA</span><span>60 min</span></div>
             <p>A future verified mix can live here with platform, date, artist IDs and a non-autoplay link.</p>
             <div class="tags"><span class="tag">mix</span><span class="tag">60 min</span><span class="tag">link incoming</span></div>
           </article>
           <article class="card music-panel">
             <span class="status">Release slot</span>
             <h3>Signal archive</h3>
+            <div class="music-meta"><span>CyberDJs crew</span><span>Date TBA</span><span>Runtime TBA</span></div>
             <p>Releases, playlists or videos can be represented without loading third-party players by default.</p>
             <div class="tags"><span class="tag">release</span><span class="tag">playlist</span><span class="tag">video</span></div>
           </article>
         </div>
+        </noscript>
       </div>
     </section>
 
@@ -795,8 +838,43 @@
       }
     ];
 
+    // Provisional public-safe placeholders. Owner verification required before publishing real music links or embeds.
+    const musicItems = [
+      {
+        id: "basement-transmission-001",
+        title: "Basement transmission 001",
+        type: "mix",
+        artist: "Resident signal",
+        description: "A future verified mix can live here with platform, date, artist IDs and a non-autoplay link.",
+        dateLabel: "Date TBA",
+        duration: "60 min",
+        genres: ["mix", "club", "link incoming"],
+        status: "Mix slot",
+        links: [],
+        embed: null
+      },
+      {
+        id: "signal-archive",
+        title: "Signal archive",
+        type: "release / playlist / video",
+        artist: "CyberDJs crew",
+        description: "Releases, playlists or videos can be represented without loading third-party players by default.",
+        dateLabel: "Date TBA",
+        duration: "Runtime TBA",
+        genres: ["release", "playlist", "video"],
+        status: "Release slot",
+        links: [],
+        embed: {
+          label: "External player placeholder",
+          url: ""
+        }
+      }
+    ];
+
     const artistRoster = document.querySelector("#artist-roster");
-    const fragment = document.createDocumentFragment();
+    const musicRoster = document.querySelector("#music-roster");
+    const artistFragment = document.createDocumentFragment();
+    const musicFragment = document.createDocumentFragment();
 
     const text = (value) => document.createTextNode(value);
 
@@ -817,6 +895,25 @@
       tags.className = "tags";
       validValues.forEach((value) => appendTextElement(tags, "span", "tag", value));
       parent.append(tags);
+    };
+
+    const appendExternalLinks = (parent, items, ariaLabel) => {
+      const validItems = items.filter((item) => item && item.url);
+      if (!validItems.length) return;
+
+      const links = document.createElement("div");
+      links.className = "music-links";
+      links.setAttribute("aria-label", ariaLabel);
+
+      validItems.forEach((item) => {
+        const link = document.createElement("a");
+        link.href = item.url;
+        link.rel = "noopener";
+        link.append(text(item.label || item.type || "Open"));
+        links.append(link);
+      });
+
+      parent.append(links);
     };
 
     const appendLinks = (parent, artist) => {
@@ -865,10 +962,47 @@
       appendTagList(card, artist.genres || []);
       appendLinks(card, artist);
 
-      fragment.append(card);
+      artistFragment.append(card);
     });
 
-    artistRoster.append(fragment);
+    musicItems.forEach((item) => {
+      const card = document.createElement("article");
+      card.className = "card music-panel";
+      card.id = `music-${item.id}`;
+
+      appendTextElement(card, "span", "status", item.status);
+      appendTextElement(card, "h3", "", item.title);
+
+      const meta = document.createElement("div");
+      meta.className = "music-meta";
+      [item.type, item.artist, item.dateLabel, item.duration].forEach((value) => {
+        appendTextElement(meta, "span", "", value);
+      });
+      if (meta.children.length) card.append(meta);
+
+      appendTextElement(card, "p", "", item.description);
+      appendTagList(card, item.genres || []);
+      appendExternalLinks(card, item.links || [], `${item.title} external links`);
+
+      if (item.embed && item.embed.url) {
+        const placeholder = document.createElement("p");
+        placeholder.className = "embed-placeholder";
+        placeholder.append(text("Embed available on request. "));
+
+        const link = document.createElement("a");
+        link.href = item.embed.url;
+        link.rel = "noopener";
+        link.append(text(item.embed.label || "Open external player"));
+        placeholder.append(link);
+
+        card.append(placeholder);
+      }
+
+      musicFragment.append(card);
+    });
+
+    artistRoster.append(artistFragment);
+    musicRoster.append(musicFragment);
   </script>
 </body>
 </html>
