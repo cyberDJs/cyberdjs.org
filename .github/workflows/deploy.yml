@@ -26,6 +26,6 @@ jobs:
           SSH_PORT: ${{ secrets.SSH_PORT }}
           TARGET: /home/eimyherr/domains/cyberdjs.org/public_html
         run: |
-          tar --exclude=.git --exclude=.github --exclude=README.md -czf - . | \
+          tar --exclude=.git --exclude=.github --exclude=README.md --exclude=AGENTS.md -czf - . | \
           ssh -p "$SSH_PORT" "$SSH_USER@$SSH_HOST" \
           "mkdir -p '$TARGET' && find '$TARGET' -mindepth 1 -maxdepth 1 ! -name cgi-bin -exec rm -rf {} + && tar -xzf - -C '$TARGET'"
