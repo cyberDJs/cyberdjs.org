@@ -90,7 +90,10 @@
     }
 
     a:focus-visible,
-    button:focus-visible {
+    button:focus-visible,
+    input:focus-visible,
+    select:focus-visible,
+    textarea:focus-visible {
       outline: 3px solid var(--focus);
       outline-offset: 4px;
     }
@@ -573,6 +576,105 @@
       color: var(--muted);
     }
 
+    .booking-grid {
+      display: grid;
+      gap: var(--space-8);
+      align-items: start;
+    }
+
+    .booking-form {
+      display: grid;
+      gap: var(--space-4);
+    }
+
+    .form-grid {
+      display: grid;
+      gap: var(--space-4);
+    }
+
+    .field {
+      display: grid;
+      gap: .45rem;
+    }
+
+    .field label {
+      font-family: var(--mono);
+      font-size: .78rem;
+      text-transform: uppercase;
+    }
+
+    .field input,
+    .field select,
+    .field textarea {
+      width: 100%;
+      border: 1px solid rgba(242, 240, 232, .18);
+      border-radius: 6px;
+      background: rgba(5, 5, 6, .72);
+      color: var(--text);
+      font: inherit;
+      padding: .8rem .85rem;
+    }
+
+    .field textarea {
+      min-height: 8.5rem;
+      resize: vertical;
+    }
+
+    .field-hint,
+    .field-error {
+      margin: 0;
+      font-size: .88rem;
+    }
+
+    .field-hint {
+      color: var(--metal);
+    }
+
+    .field-error {
+      color: var(--redline);
+    }
+
+    .spam-trap {
+      position: absolute;
+      left: -100vw;
+      width: 1px;
+      height: 1px;
+      overflow: hidden;
+    }
+
+    .form-status {
+      min-height: 3rem;
+      border: 1px solid rgba(242, 240, 232, .16);
+      border-radius: 6px;
+      background: rgba(5, 5, 6, .58);
+      padding: .75rem;
+      color: var(--muted);
+    }
+
+    .form-status[data-state="error"] {
+      border-color: rgba(255, 75, 62, .68);
+      color: var(--text);
+    }
+
+    .form-status[data-state="success"] {
+      border-color: rgba(215, 255, 47, .72);
+      color: var(--text);
+    }
+
+    .booking-mailto {
+      display: grid;
+      gap: var(--space-3);
+      margin-top: var(--space-3);
+    }
+
+    .noscript-note {
+      margin-top: var(--space-6);
+      border: 1px dashed rgba(55, 240, 255, .42);
+      border-radius: 6px;
+      padding: var(--space-4);
+      background: rgba(5, 5, 6, .48);
+    }
+
     .meta-note {
       color: var(--metal);
       font-family: var(--mono);
@@ -666,6 +768,18 @@
       .event-row {
         grid-template-columns: 10rem minmax(0, 1fr) auto;
         align-items: center;
+      }
+
+      .booking-grid {
+        grid-template-columns: minmax(16rem, .72fr) minmax(0, 1fr);
+      }
+
+      .form-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+
+      .field.full {
+        grid-column: 1 / -1;
       }
 
       .footer-inner {
@@ -896,14 +1010,87 @@
 
     <section class="section" id="booking" aria-labelledby="booking-title">
       <div class="section-inner booking">
-        <p class="eyebrow">Booking</p>
-        <h2 id="booking-title">Bring the crew into the room.</h2>
-        <p>For clubs, festivals, private events, streams, workshops and music-tech collaborations. Include date, city, venue or context, expected audience and the format you need.</p>
-        <div class="cta-actions">
-          <a class="button" href="mailto:booking@cyberdjs.org?subject=CyberDJs%20booking%20inquiry">Email booking</a>
-          <a class="button secondary" href="#crew">Review crew formats</a>
+        <div class="booking-grid">
+          <div>
+            <p class="eyebrow">Booking</p>
+            <h2 id="booking-title">Bring the crew into the room.</h2>
+            <p>For clubs, festivals, private events, streams, workshops and music-tech collaborations. Tell us the format, place, timing and what the room needs.</p>
+            <div class="booking-mailto">
+              <a class="button" href="mailto:booking@cyberdjs.org?subject=CyberDJs%20booking%20inquiry">Email booking directly</a>
+              <a class="button secondary" href="#crew">Review crew formats</a>
+            </div>
+            <p class="meta-note">This page does not store booking details. The form builds an email draft for you to review and send manually.</p>
+          </div>
+
+          <form class="booking-form" id="booking-form" novalidate>
+            <div class="spam-trap" aria-hidden="true">
+              <label for="booking-website">Leave this field empty</label>
+              <input id="booking-website" name="website" type="text" tabindex="-1" autocomplete="off">
+            </div>
+
+            <div class="form-grid">
+              <div class="field">
+                <label for="booking-name">Name *</label>
+                <input id="booking-name" name="name" type="text" autocomplete="name" aria-describedby="booking-name-error" required>
+                <p class="field-error" id="booking-name-error"></p>
+              </div>
+
+              <div class="field">
+                <label for="booking-email">Email *</label>
+                <input id="booking-email" name="email" type="email" autocomplete="email" aria-describedby="booking-email-error" required>
+                <p class="field-error" id="booking-email-error"></p>
+              </div>
+
+              <div class="field">
+                <label for="booking-type">Event type *</label>
+                <select id="booking-type" name="eventType" aria-describedby="booking-type-error" required>
+                  <option value="">Select one</option>
+                  <option>Club night</option>
+                  <option>Festival</option>
+                  <option>Private event</option>
+                  <option>Stream</option>
+                  <option>Workshop</option>
+                  <option>Music-tech collaboration</option>
+                  <option>Other</option>
+                </select>
+                <p class="field-error" id="booking-type-error"></p>
+              </div>
+
+              <div class="field">
+                <label for="booking-location">City / location optional</label>
+                <input id="booking-location" name="location" type="text" autocomplete="address-level2">
+              </div>
+
+              <div class="field">
+                <label for="booking-timeframe">Date or timeframe optional</label>
+                <input id="booking-timeframe" name="timeframe" type="text" placeholder="2026-10-24 or autumn 2026">
+              </div>
+
+              <div class="field">
+                <label for="booking-budget">Budget / range optional</label>
+                <input id="booking-budget" name="budget" type="text" inputmode="text">
+              </div>
+
+              <div class="field full">
+                <label for="booking-message">Message *</label>
+                <textarea id="booking-message" name="message" aria-describedby="booking-message-hint booking-message-error" required></textarea>
+                <p class="field-hint" id="booking-message-hint">Include venue/context, format, audience, artist preference if any, and useful links.</p>
+                <p class="field-error" id="booking-message-error"></p>
+              </div>
+            </div>
+
+            <div class="cta-actions">
+              <button class="button" type="submit">Prepare email</button>
+              <button class="button secondary" type="button" id="booking-clear">Clear</button>
+            </div>
+            <p class="form-status" id="booking-status" role="status" aria-live="polite">Fill the required fields. On submit, your email client will open with a draft addressed to booking@cyberdjs.org.</p>
+          </form>
         </div>
-        <p class="meta-note">Booking formats available. Verified links coming online.</p>
+        <noscript>
+          <div class="noscript-note">
+            <p>JavaScript is off, so the booking helper cannot build an email draft. Email <a href="mailto:booking@cyberdjs.org?subject=CyberDJs%20booking%20inquiry">booking@cyberdjs.org</a> with your name, email, event type, city/location, date or timeframe, budget if useful, and message.</p>
+          </div>
+        </noscript>
       </div>
     </section>
   </main>
@@ -1326,6 +1513,120 @@
 
     eventsEmpty.hidden = upcomingEvents.children.length > 0;
     eventsArchiveTitle.hidden = archivedEvents.children.length === 0;
+
+    const bookingForm = document.querySelector("#booking-form");
+    const bookingClear = document.querySelector("#booking-clear");
+    const bookingStatus = document.querySelector("#booking-status");
+    const bookingEmail = "booking@cyberdjs.org";
+    const bookingFields = {
+      name: document.querySelector("#booking-name"),
+      email: document.querySelector("#booking-email"),
+      eventType: document.querySelector("#booking-type"),
+      location: document.querySelector("#booking-location"),
+      timeframe: document.querySelector("#booking-timeframe"),
+      budget: document.querySelector("#booking-budget"),
+      message: document.querySelector("#booking-message"),
+      website: document.querySelector("#booking-website")
+    };
+    const bookingErrors = {
+      name: document.querySelector("#booking-name-error"),
+      email: document.querySelector("#booking-email-error"),
+      eventType: document.querySelector("#booking-type-error"),
+      message: document.querySelector("#booking-message-error")
+    };
+    const requiredBookingFields = ["name", "email", "eventType", "message"];
+    const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+    const trimValue = (field) => field.value.trim();
+
+    const setBookingStatus = (message, state) => {
+      bookingStatus.textContent = message;
+      bookingStatus.dataset.state = state || "";
+    };
+
+    const clearBookingErrors = () => {
+      Object.values(bookingErrors).forEach((error) => {
+        error.textContent = "";
+      });
+
+      requiredBookingFields.forEach((fieldName) => {
+        bookingFields[fieldName].removeAttribute("aria-invalid");
+      });
+    };
+
+    const validateBooking = () => {
+      const errors = {};
+
+      requiredBookingFields.forEach((fieldName) => {
+        if (!trimValue(bookingFields[fieldName])) {
+          errors[fieldName] = "Required.";
+        }
+      });
+
+      if (trimValue(bookingFields.email) && !emailPattern.test(trimValue(bookingFields.email))) {
+        errors.email = "Enter a valid email address.";
+      }
+
+      return errors;
+    };
+
+    const applyBookingErrors = (errors) => {
+      clearBookingErrors();
+
+      Object.entries(errors).forEach(([fieldName, message]) => {
+        bookingErrors[fieldName].textContent = message;
+        bookingFields[fieldName].setAttribute("aria-invalid", "true");
+      });
+
+      const firstInvalidField = requiredBookingFields.find((fieldName) => errors[fieldName]);
+      if (firstInvalidField) bookingFields[firstInvalidField].focus();
+    };
+
+    const bookingBody = () => {
+      const lines = [
+        `Name: ${trimValue(bookingFields.name)}`,
+        `Email: ${trimValue(bookingFields.email)}`,
+        `Event type: ${trimValue(bookingFields.eventType)}`,
+        `City / location: ${trimValue(bookingFields.location) || "Not provided"}`,
+        `Date or timeframe: ${trimValue(bookingFields.timeframe) || "Not provided"}`,
+        `Budget / range: ${trimValue(bookingFields.budget) || "Not provided"}`,
+        "",
+        "Message:",
+        trimValue(bookingFields.message)
+      ];
+
+      return lines.join("\n");
+    };
+
+    bookingForm.addEventListener("submit", (event) => {
+      event.preventDefault();
+
+      if (trimValue(bookingFields.website)) {
+        setBookingStatus("Booking request was not prepared. Please use the direct email link instead.", "error");
+        return;
+      }
+
+      const errors = validateBooking();
+      if (Object.keys(errors).length) {
+        applyBookingErrors(errors);
+        setBookingStatus("Fix the highlighted fields before preparing the email draft.", "error");
+        return;
+      }
+
+      clearBookingErrors();
+
+      const subject = `CyberDJs booking inquiry - ${trimValue(bookingFields.eventType)}`;
+      const mailto = `mailto:${bookingEmail}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(bookingBody())}`;
+      setBookingStatus("Your email client is opening with a draft. Review it and send the message manually.", "success");
+      window.location.href = mailto;
+    });
+
+    bookingClear.addEventListener("click", () => {
+      bookingForm.reset();
+      clearBookingErrors();
+      setBookingStatus("Fill the required fields. On submit, your email client will open with a draft addressed to booking@cyberdjs.org.", "");
+      bookingFields.name.focus();
+    });
   </script>
 </body>
 </html>
