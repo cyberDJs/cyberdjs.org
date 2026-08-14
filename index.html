@@ -192,12 +192,11 @@
       text-decoration: none;
     }
 
-    .brand-mark {
+    .brand-logo {
       width: 2rem;
       height: 2rem;
-      border: 1px solid var(--acid);
-      background: repeating-linear-gradient(90deg, var(--acid) 0 3px, transparent 3px 7px);
-      box-shadow: 0 0 22px rgba(215, 255, 47, .28);
+      flex: 0 0 auto;
+      object-fit: contain;
     }
 
     .nav-links {
@@ -896,7 +895,7 @@
   <header class="site-header">
     <nav class="nav" aria-label="Primary navigation">
       <a class="brand" href="#top" aria-label="CyberDJs home">
-        <span class="brand-mark" aria-hidden="true"></span>
+        <img class="brand-logo" src="assets/brand/cyberdjs-icon-header-128.png" width="32" height="32" alt="">
         <span>CyberDJs</span>
       </a>
       <div class="nav-links" aria-label="Homepage sections">
