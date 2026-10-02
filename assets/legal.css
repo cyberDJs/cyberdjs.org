@@ -1,0 +1,209 @@
+:root {
+  color-scheme: dark;
+  --void: #050506;
+  --panel: #101014;
+  --panel-raised: #17171d;
+  --line: #2a2a33;
+  --text: #f2f0e8;
+  --muted: #a6a398;
+  --acid: #d7ff2f;
+  --cyan: #37f0ff;
+  --focus: #ffffff;
+  --max: 860px;
+  --mono: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace;
+  --sans: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+}
+
+* { box-sizing: border-box; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  background:
+    linear-gradient(90deg, rgba(55, 240, 255, .04) 1px, transparent 1px),
+    linear-gradient(180deg, rgba(55, 240, 255, .025) 1px, transparent 1px),
+    radial-gradient(circle at 12% 0%, rgba(55, 240, 255, .12), transparent 28rem),
+    radial-gradient(circle at 86% 4%, rgba(215, 255, 47, .07), transparent 24rem),
+    var(--void);
+  background-size: 72px 72px, 72px 72px, auto, auto;
+  color: var(--text);
+  font-family: var(--sans);
+  line-height: 1.65;
+}
+
+a {
+  color: var(--cyan);
+  text-underline-offset: .2em;
+}
+
+a:hover { color: var(--acid); }
+
+a:focus-visible {
+  outline: 3px solid var(--focus);
+  outline-offset: 4px;
+}
+
+.site-header {
+  border-bottom: 1px solid rgba(55, 240, 255, .22);
+  background: rgba(5, 5, 6, .92);
+  backdrop-filter: blur(12px);
+}
+
+.nav {
+  width: min(100% - 2rem, 1120px);
+  margin: 0 auto;
+  min-height: 68px;
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.brand {
+  display: inline-flex;
+  gap: .65rem;
+  align-items: center;
+  color: var(--text);
+  font-weight: 900;
+  letter-spacing: .05em;
+  text-decoration: none;
+}
+
+.brand-mark {
+  width: 12px;
+  height: 12px;
+  border: 2px solid var(--acid);
+  box-shadow: 8px 0 0 -2px var(--cyan);
+}
+
+.nav-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: .9rem;
+  font-size: .92rem;
+}
+
+.nav-links a { color: var(--muted); }
+.nav-links a[aria-current="page"] { color: var(--acid); }
+
+main {
+  width: min(100% - 2rem, var(--max));
+  margin: 0 auto;
+  padding: 4.5rem 0 5rem;
+}
+
+.eyebrow {
+  margin: 0 0 .7rem;
+  color: var(--acid);
+  font-family: var(--mono);
+  font-size: .78rem;
+  font-weight: 700;
+  letter-spacing: .11em;
+  text-transform: uppercase;
+}
+
+h1, h2 {
+  line-height: 1.08;
+  letter-spacing: -.025em;
+}
+
+h1 {
+  margin: 0 0 1rem;
+  font-size: clamp(2.7rem, 8vw, 5.4rem);
+}
+
+h2 {
+  margin: 2.8rem 0 .8rem;
+  font-size: clamp(1.45rem, 3vw, 2rem);
+}
+
+p, li { color: #d8d5cc; }
+
+.lead {
+  max-width: 66ch;
+  margin: 0 0 1.6rem;
+  color: var(--text);
+  font-size: 1.12rem;
+}
+
+.meta {
+  color: var(--muted);
+  font-family: var(--mono);
+  font-size: .86rem;
+}
+
+.notice, .contact-card {
+  margin: 2rem 0;
+  border: 1px solid var(--line);
+  border-left: 3px solid var(--cyan);
+  background: rgba(16, 16, 20, .86);
+  padding: 1rem 1.15rem;
+}
+
+.contact-card { border-left-color: var(--acid); }
+
+.contact-card strong {
+  display: block;
+  margin-bottom: .4rem;
+}
+
+code {
+  padding: .1rem .35rem;
+  border: 1px solid var(--line);
+  border-radius: 4px;
+  background: var(--panel);
+  color: var(--acid);
+  font-family: var(--mono);
+  font-size: .92em;
+}
+
+ul { padding-left: 1.3rem; }
+li + li { margin-top: .45rem; }
+
+hr {
+  margin: 3rem 0;
+  border: 0;
+  border-top: 1px solid var(--line);
+}
+
+.site-footer {
+  border-top: 1px solid var(--line);
+  background: rgba(5, 5, 6, .92);
+}
+
+.footer-inner {
+  width: min(100% - 2rem, 1120px);
+  margin: 0 auto;
+  padding: 1.5rem 0 2.2rem;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem 1.4rem;
+  align-items: center;
+  justify-content: space-between;
+  color: var(--muted);
+  font-size: .9rem;
+}
+
+.footer-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: .9rem;
+}
+
+.footer-links a { color: var(--muted); }
+
+@media (max-width: 680px) {
+  .nav {
+    align-items: flex-start;
+    flex-direction: column;
+    padding: 1rem 0;
+  }
+
+  main { padding-top: 3rem; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+}
