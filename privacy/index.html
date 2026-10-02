@@ -1,0 +1,83 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>CyberSKILLS Privacy Policy — CyberDJs</title>
+  <meta name="description" content="Privacy policy for the CyberSKILLS read-only capability directory and ChatGPT MCP integration.">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://cyberdjs.org/privacy">
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="/assets/legal.css">
+</head>
+<body>
+  <header class="site-header">
+    <nav class="nav" aria-label="Legal and support navigation">
+      <a class="brand" href="/"><span class="brand-mark" aria-hidden="true"></span><span>CyberDJs</span></a>
+      <div class="nav-links">
+        <a href="/support">Support</a>
+        <a href="/privacy" aria-current="page">Privacy</a>
+        <a href="/terms">Terms</a>
+      </div>
+    </nav>
+  </header>
+
+  <main>
+    <p class="eyebrow">CyberSKILLS / privacy</p>
+    <h1>Privacy Policy</h1>
+    <p class="lead">This policy explains how CyberDJs handles information when you use the public CyberSKILLS website and read-only ChatGPT MCP integration.</p>
+
+    <h2>What CyberSKILLS does</h2>
+    <p>CyberSKILLS lets a user or ChatGPT search and inspect a centrally managed registry of AI capabilities. The public MCP surface is read-only and currently exposes runtime status, exact capability lookup, and bounded capability search.</p>
+
+    <h2>Information processed</h2>
+    <p>The service processes only the inputs required for a requested tool call:</p>
+    <ul>
+      <li>no arguments for runtime status;</li>
+      <li>a capability identifier for exact lookup;</li>
+      <li>a search query and bounded result limit for capability search.</li>
+    </ul>
+    <p>The service also necessarily receives ordinary network and request metadata used to operate an HTTPS service, such as timestamps, request paths, IP/network information, response status, and diagnostic errors.</p>
+
+    <h2>Purpose</h2>
+    <p>Inputs are processed to return requested capability metadata, maintain service reliability, diagnose faults, protect the service against abuse, and verify compatibility and deployment health.</p>
+
+    <h2>Storage and retention</h2>
+    <p>CyberSKILLS does not intentionally create user profiles or store MCP tool arguments as application records. Operational infrastructure may generate request and error logs. Such logs are intended to be retained only for operational, security, and troubleshooting needs and should be minimized where practical.</p>
+
+    <h2>Recipients and service providers</h2>
+    <p>Information may be processed by the infrastructure providers required to run the service and by OpenAI/ChatGPT when you invoke CyberSKILLS through ChatGPT. CyberDJs does not sell CyberSKILLS user data.</p>
+
+    <h2>Data returned by the service</h2>
+    <p>Responses contain capability-registry metadata and runtime/registry status. The public interface is designed not to return authentication secrets, private credentials, unrelated personal data, or hidden internal service URLs.</p>
+
+    <h2>Cookies and tracking</h2>
+    <p>The CyberDJs pages used for CyberSKILLS support, privacy, and terms do not intentionally set application cookies or load advertising or behavioral-tracking scripts. Infrastructure providers may still process ordinary request metadata required to deliver the pages.</p>
+
+    <h2>Your choices and requests</h2>
+    <p>You may contact CyberDJs to ask about information associated with your use of CyberSKILLS, to raise a privacy concern, or to request correction or deletion where applicable and technically identifiable. Because the service does not intentionally maintain user profiles, CyberDJs may not always have application data that can be linked back to a specific person.</p>
+
+    <div class="contact-card">
+      <strong>Privacy contact</strong>
+      <p>Email <a href="mailto:booking@cyberdjs.org?subject=CyberSKILLS%20privacy">booking@cyberdjs.org</a> with the subject <code>CyberSKILLS privacy</code>. This is the current public CyberDJs contact address while a dedicated privacy/support alias is being introduced.</p>
+    </div>
+
+    <h2>Security and minimization</h2>
+    <p>The public tool surface is read-only, uses bounded inputs and HTTPS transport, and is designed to request and return only data necessary for capability discovery. Compatibility that has not been verified remains <code>unknown</code>.</p>
+
+    <h2>Changes to this policy</h2>
+    <p>This policy may be updated as CyberSKILLS moves beyond Alpha, adds new capabilities, or changes infrastructure. The current version and date will remain published at this URL.</p>
+
+    <p class="meta">Last updated: 2026-10-03</p>
+  </main>
+
+  <footer class="site-footer">
+    <div class="footer-inner">
+      <span>CyberDJs / CyberSKILLS</span>
+      <nav class="footer-links" aria-label="Footer navigation">
+        <a href="/">Home</a><a href="/support">Support</a><a href="/privacy">Privacy</a><a href="/terms">Terms</a>
+      </nav>
+    </div>
+  </footer>
+</body>
+</html>
